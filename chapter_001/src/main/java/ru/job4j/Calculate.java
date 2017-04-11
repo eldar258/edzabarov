@@ -1,13 +1,13 @@
 package ru.job4j;
 
 /**
-*Class Calculate решение части 1.3
+*Class Calculate СЂРµС€РµРЅРёРµ С‡Р°СЃС‚Рё 1.3
 *@author edzabarov
 *@since 11.04.2017
 */
 public class Calculate{
 	/**
-	*Метод выводит Hello World
+	*РњРµС‚РѕРґ РІС‹РІРѕРґРёС‚ Hello World
 	*@param args
 	*@return void
 	*/
