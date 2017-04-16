@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
-* Test
+* Test.
 *
 * @author edzabarov
 * @version 0.1
