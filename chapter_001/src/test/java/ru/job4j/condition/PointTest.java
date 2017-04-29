@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 *
 * @author edzabarov
 * @version $Id$
-* @since 11.04.2017
+* @since 29.04.2017
 */
 public class PointTest {
 	/**
