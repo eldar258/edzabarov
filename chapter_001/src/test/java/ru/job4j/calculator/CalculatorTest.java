@@ -28,22 +28,22 @@ public class CalculatorTest {
 	* Test substruct.
 	*/
 	@Test
-	public void whenAddOneSubstructOneThenZero() {
+	public void whenAddTwoSubstructOneThenOne() {
 		Calculator calc = new Calculator();
-		calc.add(1D, 1D);
+		calc.substruct(2D, 1D);
 		double result = calc.getResult();
-		double expected = 0D;
+		double expected = 1D;
 		assertThat(result, is(expected));
 	}
 	/**
 	* Test div.
 	*/
 	@Test
-	public void whenAddOneDivOneThenOne() {
+	public void whenAddTwoDivOneThenTwo() {
 		Calculator calc = new Calculator();
-		calc.add(1D, 1D);
+		calc.div(2D, 1D);
 		double result = calc.getResult();
-		double expected = 1D;
+		double expected = 2D;
 		assertThat(result, is(expected));
 	}
 	/**
@@ -52,7 +52,7 @@ public class CalculatorTest {
 	@Test
 	public void whenAddTwoMultipleTwoThenFour() {
 		Calculator calc = new Calculator();
-		calc.add(2D, 2D);
+		calc.multiple(2D, 2D);
 		double result = calc.getResult();
 		double expected = 4D;
 		assertThat(result, is(expected));

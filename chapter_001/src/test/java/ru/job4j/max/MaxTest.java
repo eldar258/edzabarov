@@ -1,5 +1,10 @@
 package ru.job4j.max;
 
+import org.junit.Test;
+//import java.io.ByteArrayOutputStream;
+//import java.io.PrintStream;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 /**
 * Test.
 *
@@ -13,7 +18,7 @@ public class MaxTest {
 	*/
 	@Test
 	public void whenAddOneEqulseTwoThenTwo() {
-		Max max = new max();
+		Max max = new Max();
 		int result = max.max(1, 2);
 		int expected = 2;
 		assertThat(result, is(expected));
@@ -23,7 +28,7 @@ public class MaxTest {
 	*/
 	@Test
 	public void whenAddTwoEqulseOneThenTwo() {
-		Max max = new max();
+		Max max = new Max();
 		int result = max.max(2, 1);
 		int expected = 2;
 		assertThat(result, is(expected));
