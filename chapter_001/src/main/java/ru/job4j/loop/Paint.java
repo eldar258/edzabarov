@@ -15,7 +15,7 @@ public class Paint {
 		StringBuilder sb = new StringBuilder();
 		final String line = System.getProperty("line.separator");
 		int width = height * 2 - 1;
-		for (int i = 1; i <= height; i++, sb.append(line)) {
+		for (int i = 1; i <= height; i++) {
 			int step = (width - i * 2 + 1) / 2;
 			for (int j = 1; j <= width; j++) {
 				if (j <= step || j > (step + i * 2 - 1)) {
@@ -24,6 +24,7 @@ public class Paint {
 					sb.append('^');
 				}
 			}
+			sb.append(line);
 		}
 		return sb.toString();
 	}
