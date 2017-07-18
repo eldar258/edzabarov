@@ -31,7 +31,7 @@ public class PaintTest {
     public void whenPiramidWithHeightFiveThenStringWithFiveRows() {
 		Paint paint = new Paint();
         String result = paint.piramid(5);
-        String expected = String.format("    ^    %s   ^^^   %s  ^^^^^  %s ^^^^^^^ %s^^^^^^^^^%s", System.getProperty("line.separator"), System.getProperty("line.separator"), System.getProperty("line.separator"), System.getProperty("line.separator"), System.getProperty("line.separator")), System.getProperty("line.separator");
+        String expected = String.format("    ^    %s   ^^^   %s  ^^^^^  %s ^^^^^^^ %s^^^^^^^^^%s", System.getProperty("line.separator"), System.getProperty("line.separator"), System.getProperty("line.separator"), System.getProperty("line.separator"), System.getProperty("line.separator"));
         assertThat(result, is(expected));
     }
 }
