@@ -28,6 +28,7 @@ public class Paint {
 				sb.append(line);
 			}
 		}
+		//git add
 		return sb.toString();
 	}
 }

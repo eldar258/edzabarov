@@ -43,5 +43,6 @@ public class PaintTest {
         String result = paint.piramid(1);
         String expected = "^";
         assertThat(result, is(expected));
+	//git add
     }
 }
