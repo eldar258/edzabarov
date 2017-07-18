@@ -31,7 +31,6 @@ public class Board {
 			}
 			sb.append(line);
 		}
-		//System.out.println(sb.toString());
 		return sb.toString();
 	}
 }
