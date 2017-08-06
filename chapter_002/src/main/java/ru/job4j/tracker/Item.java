@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.text.SimpleDateFormat;
+
 /**
  * Class Item.
  *
@@ -108,5 +110,17 @@ public class Item {
      */
     public String[] getComments() {
         return this.comments;
+    }
+
+    /**
+     * item to string.
+     * @return Name, desc, created, id, comments.
+     */
+    @Override
+    public String toString() {
+        SimpleDateFormat format = new SimpleDateFormat("YYYY:MM:dd:HH:mm:ss:SSS");
+        return "\tName: " + getName() + "\r\n\tDescription: " + getDesc()
+                + "\r\n\tDate of creation: " + format.format(getCreated())
+                + "\r\n\tId: " + getId() + "\r\n\tComments: " + getComments();
     }
 }
