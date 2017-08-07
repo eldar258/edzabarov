@@ -6,7 +6,11 @@ package ru.job4j.tracker;
  * @author edzabarov
  * @since 06.08.2017
  */
-public class StartUi {
+public class StartUI {
+    /**
+     * input.
+     */
+    private Input input;
     /**
      * add().
      */
@@ -45,9 +49,10 @@ public class StartUi {
     private Tracker tracker = new Tracker();
 
     /**
-     * create menu UI.
+     * Конструктор.
+     * @param input - input.
      */
-    private StartUi() {
+    public StartUI(Input input) {
         String[] menuUiArray = {
                 "0. Add new Item",
                 "1. Show all items",
@@ -59,19 +64,29 @@ public class StartUi {
                 "Select:"
         };
         this.menuUi = String.join("\r\n", menuUiArray);
+        this.input = input;
+    }
+    /**
+     * Конструктор основной.
+     * @param input - input.
+     * @param tracker - tracker.
+     */
+    public StartUI(Input input, Tracker tracker) {
+        this(input);
+        this.tracker = tracker;
     }
     /**
      * main.
      * @param args - args
      */
     public static void main(String[] args) {
-        new StartUi().start();
+        new StartUI(new ConsoleInput()).start();
     }
 
     /**
      * Запускает цикл постоянного ввода.
      */
-    private void start() {
+    public void start() {
         while (distributor()) {
             continue;
         }
@@ -83,7 +98,7 @@ public class StartUi {
      */
     private boolean distributor() {
         boolean isNotExit = true;
-        switch (new ConsoleInput().ask(String.join("", this.menuUi))) {
+        switch (input.ask(String.join("", this.menuUi))) {
             case ADD:
                 add();
                 break;
@@ -110,19 +125,12 @@ public class StartUi {
         }
         return isNotExit;
     }
-
     /**
      * add.
      */
     private void add() {
-        String inputData = new ConsoleInput().ask("Enter name and description");
-        String[] nameAndDesc = inputData.split(" ");
-        if (nameAndDesc.length != 2) {
-            System.out.println("Error: the entered data does not correspond to the format");
-        } else {
-            tracker.add(new Item(nameAndDesc[0], nameAndDesc[1], System.currentTimeMillis()));
+            tracker.add(new Item(input.ask("Enter name: "), input.ask("Enter description: "), System.currentTimeMillis()));
             System.out.println("Item successfully added");
-        }
     }
     /**
      * showAllItems.
@@ -141,67 +149,44 @@ public class StartUi {
      * editItem.
      */
     private void editItem() {
-        String inputData = new ConsoleInput().ask("Enter name, description and id of the item being updated: ");
-        String[] nameDescAndId = inputData.split(" ");
-        if (nameDescAndId.length != 3) {
-            System.out.println("Error: the entered data does not correspond to the format");
-        } else {
-            Item newItem = new Item(nameDescAndId[0], nameDescAndId[1], System.currentTimeMillis());
-            newItem.setId(nameDescAndId[2]);
-            tracker.update(newItem);
-            System.out.println("Item successfully updated");
-        }
+        Item item = new Item(input.ask("Enter of the item being updated: "),
+                input.ask("Enter description of the item being updated: "), System.currentTimeMillis());
+        item.setId(input.ask("Enter id of the item being updated:"));
+        tracker.update(item);
+        System.out.println("Item successfully updated");
     }
 
     /**
      * deleteItem.
      */
     private void deleteItem() {
-        String inputData = new ConsoleInput().ask("Enter id item's to be deleted: ");
-        String[] id = inputData.split(" ");
-        if (id.length != 1) {
-            System.out.println("Error: the entered data does not correspond to the format");
-        } else {
-            Item tempItem = new Item("temp", "tempDesc", 123L);
-            tempItem.setId(id[0]);
-            tracker.delete(tempItem);
-            System.out.println("Item successfully deleted");
-        }
+        Item item = new Item();
+        item.setId(input.ask("Enter id of the item being deleted:"));
+        tracker.delete(item);
+        System.out.println("Item successfully deleted");
     }
     /**
      * findItemById.
      */
     private void findItemById() {
-        String inputData = new ConsoleInput().ask("Enter item id to be find: ");
-        String[] id = inputData.split(" ");
-        if (id.length != 1) {
-            System.out.println("Error: the entered data does not correspond to the format");
+        Item item = tracker.findById(input.ask("Enter item id to be find:"));
+        if (item != null) {
+            System.out.println(item.toString());
         } else {
-            Item findItem = tracker.findById(id[0]);
-            if (findItem != null) {
-                System.out.println(findItem.toString());
-            } else {
-                System.out.println("Item not found");
-            }
+            System.out.println("Item not found");
         }
     }
     /**
      * findItemsByName.
      */
     private void findItemsByName() {
-        String inputData = new ConsoleInput().ask("Enter item name to be find: ");
-        String[] name = inputData.split(" ");
-        if (name.length != 1) {
-            System.out.println("Error: the entered data does not correspond to the format");
-        } else {
-            Item[] findItems = tracker.findByName(name[0]);
-            if (findItems.length != 0) {
-                for (Item findItem : findItems) {
-                    System.out.println(findItem.toString());
-                }
-            } else {
-                System.out.println("Item not found");
+        Item[] items = tracker.findByName(input.ask("Enter item name to be find:"));
+        if (items.length != 0) {
+            for (Item item : items) {
+                System.out.println(item.toString());
             }
+        } else {
+            System.out.println("Items not found");
         }
     }
 }

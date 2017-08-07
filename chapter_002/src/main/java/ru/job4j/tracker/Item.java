@@ -42,6 +42,11 @@ public class Item {
         this.created = created;
     }
     /**
+     * Пустой конструктор.
+     */
+    public Item() {
+    }
+    /**
      *
      * @param id - id
      */
