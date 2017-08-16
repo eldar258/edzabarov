@@ -8,6 +8,10 @@ package ru.job4j.tracker;
  */
 public class MenuTracker {
     /**
+     * ranges.
+     */
+    private int[] ranges = {0, 1, 2, 3, 4, 5, 6};
+    /**
      * input.
      */
     private Input input;
@@ -55,9 +59,7 @@ public class MenuTracker {
      * @param key -
      */
     public void select(int key) {
-        if (key >= 0 && key < 6) {
             this.actions[key].execute(this.input, this.tracker);
-        }
     }
     /**
      * class UserAction.
@@ -247,5 +249,13 @@ public class MenuTracker {
         public String info() {
             return String.format("%s. %s", this.key(), "Find items by name");
         }
+    }
+
+    /**
+     * ranges.
+     * @return -
+     */
+    public int[] getRanges() {
+        return ranges;
     }
 }

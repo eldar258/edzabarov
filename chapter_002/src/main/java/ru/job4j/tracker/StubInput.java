@@ -31,4 +31,15 @@ public class StubInput implements Input {
     public String ask(String question) {
         return questions[position++];
     }
+    /**
+     * .
+     * @param question -
+     * @param ranges -
+     * @return .
+     * @throws MenuOutException -
+     * @throws NumberFormatException -
+     */
+    public int ask(String question, int[] ranges) throws MenuOutException, NumberFormatException {
+        return Integer.parseInt(questions[position++]);
+    }
 }

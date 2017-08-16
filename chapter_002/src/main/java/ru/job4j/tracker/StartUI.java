@@ -33,7 +33,7 @@ public class StartUI {
      * @param args - args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).start();
+        new StartUI(new ValidateInput(), new Tracker()).start();
     }
 
     /**
@@ -44,12 +44,8 @@ public class StartUI {
         menuTracker.fillAction();
         do {
             menuTracker.show();
-            try {
-                int key = Integer.parseInt(this.input.ask("Select: "));
-                menuTracker.select(key);
-            } catch (NumberFormatException ex) {
-                System.out.println("ERROR: command not found.");
-            }
+            int key = this.input.ask("Select: ", menuTracker.getRanges());
+            menuTracker.select(key);
         } while (!"y".equals(this.input.ask("Exit: <y>")));
     }
 }
