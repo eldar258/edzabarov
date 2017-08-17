@@ -38,12 +38,12 @@ public class MenuTracker {
      * fillAction.
      */
     public void fillAction() {
-        this.actions[0] = this.new AddItem();
-        this.actions[1] = this.new ShowAllItems();
-        this.actions[2] = this.new EditItem();
-        this.actions[3] = this.new DeleteItem();
-        this.actions[4] = this.new FindItemById();
-        this.actions[5] = this.new FindItemsByName();
+        this.actions[0] = this.new AddItem("Add item.", 0);
+        this.actions[1] = this.new ShowAllItems("Show all items.", 1);
+        this.actions[2] = this.new EditItem("Edit item.", 2);
+        this.actions[3] = this.new DeleteItem("Delete item.", 3);
+        this.actions[4] = this.new FindItemById("Find item by ID.", 4);
+        this.actions[5] = this.new FindItemsByName("Find items by name.", 5);
     }
     /**
      * show menu.
@@ -64,13 +64,14 @@ public class MenuTracker {
     /**
      * class UserAction.
      */
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
         /**
-         * key.
-         * @return 0
+         * Конструктор.
+         * @param name -
+         * @param key -
          */
-        public int key() {
-            return 0;
+        private AddItem(String name, int key) {
+            super(name, key);
         }
         /**
          * execute.
@@ -81,24 +82,18 @@ public class MenuTracker {
             tracker.add(new Item(input.ask("Enter name: "), input.ask("Enter description: "), System.currentTimeMillis()));
             System.out.println("Item successfully added");
         }
-        /**
-         * info.
-         * @return - info.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add new Item");
-        }
     }
     /**
      * class UserAction.
      */
-    private class ShowAllItems implements UserAction {
+    private class ShowAllItems extends BaseAction {
         /**
-         * key.
-         * @return 1
+         * Конструктор.
+         * @param name -
+         * @param key -
          */
-        public int key() {
-            return 1;
+        private ShowAllItems(String name, int key) {
+            super(name, key);
         }
         /**
          * execute.
@@ -115,24 +110,18 @@ public class MenuTracker {
                 System.out.println("There are no items");
             }
         }
-        /**
-         * info.
-         * @return - info.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items");
-        }
     }
     /**
      * class UserAction.
      */
-    private class EditItem implements UserAction {
+    private class EditItem extends BaseAction {
         /**
-         * key.
-         * @return 2
+         * Конструктор.
+         * @param name -
+         * @param key -
          */
-        public int key() {
-            return 2;
+        private EditItem(String name, int key) {
+            super(name, key);
         }
         /**
          * execute.
@@ -146,24 +135,18 @@ public class MenuTracker {
             tracker.update(item);
             System.out.println("Item successfully updated");
         }
-        /**
-         * info.
-         * @return - info.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Edit item");
-        }
     }
     /**
      * class UserAction.
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
         /**
-         * key.
-         * @return 3
+         * Конструктор.
+         * @param name -
+         * @param key -
          */
-        public int key() {
-            return 3;
+        private DeleteItem(String name, int key) {
+            super(name, key);
         }
         /**
          * execute.
@@ -176,24 +159,18 @@ public class MenuTracker {
             tracker.delete(item);
             System.out.println("Item successfully deleted");
         }
-        /**
-         * info.
-         * @return - info.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item");
-        }
     }
     /**
      * class UserAction.
      */
-    private class FindItemById implements UserAction {
+    private class FindItemById extends BaseAction {
         /**
-         * key.
-         * @return 4
+         * Конструктор.
+         * @param name -
+         * @param key -
          */
-        public int key() {
-            return 4;
+        private FindItemById(String name, int key) {
+            super(name, key);
         }
         /**
          * execute.
@@ -208,24 +185,18 @@ public class MenuTracker {
                 System.out.println("Item not found");
             }
         }
-        /**
-         * info.
-         * @return - info.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by Id");
-        }
     }
     /**
      * class UserAction.
      */
-    private class FindItemsByName implements UserAction {
+    private class FindItemsByName extends BaseAction {
         /**
-         * key.
-         * @return 5
+         * Конструктор.
+         * @param name -
+         * @param key -
          */
-        public int key() {
-            return 5;
+        private FindItemsByName(String name, int key) {
+            super(name, key);
         }
         /**
          * execute.
@@ -241,13 +212,6 @@ public class MenuTracker {
             } else {
                 System.out.println("Items not found");
             }
-        }
-        /**
-         * info.
-         * @return - info.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find items by name");
         }
     }
 
