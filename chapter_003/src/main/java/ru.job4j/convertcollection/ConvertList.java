@@ -69,4 +69,23 @@ public class ConvertList {
         }
         return array;
     }
+
+    /**
+     * convert list is int[] to list is Integer.
+     * @param list -
+     * @return this.list.
+     */
+    public List<Integer> convert(List<int[]> list) {
+        this.list.clear();
+        if (list != null) {
+            for (int[] el : list) {
+                if (el != null) {
+                    for (int i : el) {
+                        this.list.add(i);
+                    }
+                }
+            }
+        }
+        return this.list;
+    }
 }

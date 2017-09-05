@@ -90,4 +90,55 @@ public class ConvertListTest {
         int[][] expected = convertList.toArray(list, 3);
         assertThat(result, is(expected));
     }
+    /**
+     * test convert.
+     */
+    @Test
+    public void whenListToConvertThenConvertedToArrayList() {
+        List<int[]> list = new ArrayList<>();
+        ConvertList convertList = new ConvertList(new ArrayList<Integer>());
+        list.add(new int[]{1, 2, 3});
+        list.add(new int[]{1, 2, 3, 4, 5});
+        List<Integer> result = new ArrayList<>();
+        result.add(1);
+        result.add(2);
+        result.add(3);
+        result.add(1);
+        result.add(2);
+        result.add(3);
+        result.add(4);
+        result.add(5);
+        List<Integer> expected = convertList.convert(list);
+        assertThat(result, is(expected));
+    }
+    /**
+     * test convert null.
+     */
+    @Test
+    public void whenListToArrayNullToConvertThenConvertedToArrayList() {
+        List<int[]> list = new ArrayList<>();
+        ConvertList convertList = new ConvertList(new ArrayList<Integer>());
+        list.add(new int[]{1, 2, 3});
+        list.add(new int[0]);
+        list.add(new int[]{4, 5});
+        List<Integer> result = new ArrayList<>();
+        result.add(1);
+        result.add(2);
+        result.add(3);
+        result.add(4);
+        result.add(5);
+        List<Integer> expected = convertList.convert(list);
+        assertThat(result, is(expected));
+    }
+    /**
+     * test convert null.
+     */
+    @Test
+    public void whenListNullToConvertThenConvertedToArrayList() {
+        List<int[]> list = null;
+        ConvertList convertList = new ConvertList(new ArrayList<Integer>());
+        List<Integer> result = new ArrayList<>();
+        List<Integer> expected = convertList.convert(list);
+        assertThat(result, is(expected));
+    }
 }
