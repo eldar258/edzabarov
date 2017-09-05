@@ -56,4 +56,38 @@ public class ConvertListTest {
         int[][] expected = convertList.toArray(list, 3);
         assertThat(result, is(expected));
     }
+    /**
+     * test toList Null.
+     */
+    @Test
+    public void whenArrayNullThenConvertedToListNull() {
+        List<Integer> result = new ArrayList<>();
+        ConvertList convertList = new ConvertList(new ArrayList<Integer>());
+        int[][] array = new int[0][0];
+        List<Integer> expected = convertList.toList(array);
+        assertThat(result, is(expected));
+    }
+
+    /**
+     * test toArray null.
+     */
+    @Test
+    public void whenListToArrayNullThenConvertedToArrayNull() {
+        List<Integer> list = null;
+        ConvertList convertList = new ConvertList(new ArrayList<Integer>());
+        int[][] result = {{0, 0, 0}};
+        int[][] expected = convertList.toArray(list, 3);
+        assertThat(result, is(expected));
+    }
+    /**
+     * test toArray, list empty.
+     */
+    @Test
+    public void whenListToArrayEmptyThenConvertedToArrayNull() {
+        List<Integer> list = new ArrayList<>();
+        ConvertList convertList = new ConvertList(new ArrayList<Integer>());
+        int[][] result = {{0, 0, 0}};
+        int[][] expected = convertList.toArray(list, 3);
+        assertThat(result, is(expected));
+    }
 }
