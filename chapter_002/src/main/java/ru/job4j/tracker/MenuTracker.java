@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class ru.job4j.tracker.
  *
@@ -22,7 +25,7 @@ public class MenuTracker {
     /**
      * UserAction.
      */
-    private UserAction[] actions = new UserAction[6];
+    private ArrayList<UserAction> actions = new ArrayList<>();
 
     /**
      * Construction.
@@ -38,20 +41,18 @@ public class MenuTracker {
      * fillAction.
      */
     public void fillAction() {
-        this.actions[0] = this.new AddItem("Add item.", 0);
-        this.actions[1] = this.new ShowAllItems("Show all items.", 1);
-        this.actions[2] = this.new EditItem("Edit item.", 2);
-        this.actions[3] = this.new DeleteItem("Delete item.", 3);
-        this.actions[4] = this.new FindItemById("Find item by ID.", 4);
-        this.actions[5] = this.new FindItemsByName("Find items by name.", 5);
+        this.actions.add(this.new AddItem("Add item.", 0));
+        this.actions.add(this.new ShowAllItems("Show all items.", 1));
+        this.actions.add(this.new EditItem("Edit item.", 2));
+        this.actions.add(this.new DeleteItem("Delete item.", 3));
+        this.actions.add(this.new FindItemById("Find item by ID.", 4));
+        this.actions.add(this.new FindItemsByName("Find items by name.", 5));
     }
     /**
      * show menu.
      */
     public void show() {
-        for (int i = 0; i < this.actions.length; i++) {
-            System.out.println(this.actions[i].info());
-        }
+        this.actions.forEach(userAction -> System.out.print(userAction.info()));
     }
 
     /**
@@ -59,7 +60,7 @@ public class MenuTracker {
      * @param key -
      */
     public void select(int key) {
-            this.actions[key].execute(this.input, this.tracker);
+            this.actions.get(key).execute(this.input, this.tracker);
     }
     /**
      * class UserAction.
@@ -101,11 +102,9 @@ public class MenuTracker {
          * @param tracker -
          */
         public void execute(Input input, Tracker tracker) {
-            Item[] items = tracker.getAll();
-            if (items.length != 0) {
-                for (Item item : items) {
-                    System.out.println(item.toString());
-                }
+            List<Item> items = tracker.getAll();
+            if (items != null) {
+                items.forEach(System.out::println);
             } else {
                 System.out.println("There are no items");
             }
@@ -204,11 +203,9 @@ public class MenuTracker {
          * @param tracker -
          */
         public void execute(Input input, Tracker tracker) {
-            Item[] items = tracker.findByName(input.ask("Enter item name to be find:"));
-            if (items.length != 0) {
-                for (Item item : items) {
-                    System.out.println(item.toString());
-                }
+            List<Item> items = tracker.findByName(input.ask("Enter item name to be find:"));
+            if (items != null) {
+                items.forEach(System.out::println);
             } else {
                 System.out.println("Items not found");
             }

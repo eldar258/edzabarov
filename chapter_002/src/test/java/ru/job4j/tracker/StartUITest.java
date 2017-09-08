@@ -2,6 +2,8 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 /**
@@ -19,7 +21,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});
         new StartUI(input, tracker).start();
-        assertThat(tracker.getAll()[0].getName(), is("test name"));
+        assertThat(tracker.getAll().get(0).getName(), is("test name"));
     }
     /**
      * test editItem().
@@ -42,7 +44,7 @@ public class StartUITest {
         tracker.add(item);
         Input input = new StubInput(new String[]{"0", "test name2", "desc2", "n", "3", item.getId(), "y"});
         new StartUI(input, tracker).start();
-        assertThat(tracker.getAll()[0].getName(), is("test name2"));
+        assertThat(tracker.getAll().get(0).getName(), is("test name2"));
     }
     /**
      * test 3 add().
@@ -54,8 +56,8 @@ public class StartUITest {
                 "0", "test name2", "desc2", "n",
                 "0", "test name3", "desc3", "y"});
         new StartUI(input, tracker).start();
-        Item[] items = tracker.getAll();
-        assertThat(new String[]{items[0].getName(), items[1].getName(), items[2].getName()},
+        List<Item> items = tracker.getAll();
+        assertThat(new String[]{items.get(0).getName(), items.get(1).getName(), items.get(2).getName()},
                 is(new String[]{"test name1", "test name2", "test name3"}));
     }
 }
