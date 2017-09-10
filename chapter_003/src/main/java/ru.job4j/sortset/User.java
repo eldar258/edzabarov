@@ -66,4 +66,18 @@ public class User implements Comparable<User> {
         return name != null ? name.equals(user.name) : user.name == null;
 
     }
+    /**
+     * get name.
+     * @return -
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * get age.
+     * @return -
+     */
+    public int getAge() {
+        return age;
+    }
 }
