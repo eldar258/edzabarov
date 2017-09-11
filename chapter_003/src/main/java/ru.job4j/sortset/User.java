@@ -27,6 +27,12 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * Construction.
+     */
+    public User() {
+    }
+
+    /**
      * compareTo.
      * @param o -
      * @return 1

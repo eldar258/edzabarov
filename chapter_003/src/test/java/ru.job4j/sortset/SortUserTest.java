@@ -61,4 +61,26 @@ public class SortUserTest {
         User[] result = {new User("name1", 15), new User("name1", 20), new User("name2", 8), new User("name2", 10)};
         assertThat(result, is(expected));
     }
+    /**
+     * test sort by length if name == null.
+     */
+    @Test
+    public void whenListSortByNameEqualsNullThenSortedByNameLength() {
+        List<User> expectedList = new ArrayList<>();
+        expectedList.addAll(Arrays.asList(new User(), new User("n2", 15), new User(), new User("nam4", 0)));
+        User[] expected = new SortUser().sortNameLength(expectedList).toArray(new User[0]);
+        User[] result = {new User("n2", 15), new User("nam4", 0), new User(), new User()};
+        assertThat(result, is(expected));
+    }
+    /**
+     * test sort by name and age if name == null.
+     */
+    @Test
+    public void whenListSortByNameAndLengthEqualsNullThenSortedByNameAndLength() {
+        List<User> expectedList = new ArrayList<>();
+        expectedList.addAll(Arrays.asList(new User("name1", 15), new User(), new User("name1", 20), new User("name2", 10), new User()));
+        User[] expected = new SortUser().sortByAllFields(expectedList).toArray(new User[0]);
+        User[] result = {new User("name1", 15), new User("name1", 20), new User("name2", 10), new User(), new User()};
+        assertThat(result, is(expected));
+    }
 }
