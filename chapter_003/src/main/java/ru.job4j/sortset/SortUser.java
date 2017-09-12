@@ -35,15 +35,13 @@ public class SortUser {
         Collections.sort(list, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                int result = isNull(o1.getName(), o2.getName());
-                return result > 1 ? o1.getName().length() - o2.getName().length() : result;
-            }
-            private int isNull(Object o1, Object o2) {
                 int result;
-                if (o1 != null && o2 != null) result = 2;
-                else if (o1 != null) result = -1;
-                else if (o2 != null) result = 1;
-                else result = 0;
+                try {
+                    result = o1.getName().length() - o2.getName().length(); // сработает, только если name != null у обоих объектов
+                } catch (NullPointerException ex) { //какой - то из name == null
+                    result = o1.getName() == null ? -1 : 1; // проверка первого на null. Если так, то он меньше.
+                    if (o1.getName() == o2.getName()) result = 0; // проверка на равенство первого и второго. Если равны, значит оба равны null.
+                }
                 return result;
             }
         });
@@ -60,17 +58,14 @@ public class SortUser {
         Collections.sort(list, new Comparator<User>() {
             @Override
             public int compare(User o1, User o2) {
-                int result = isNull(o1.getName(), o2.getName());
-                result = result > 1 ? o1.getName().compareTo(o2.getName()) : result;
-                return result == 0 ? o1.getAge() - o2.getAge() : result;
-            }
-            private int isNull(Object o1, Object o2) {
                 int result;
-                if (o1 != null && o2 != null) result = 2;
-                else if (o1 != null) result = -1;
-                else if (o2 != null) result = 1;
-                else result = 0;
-                return result;
+                try {
+                    result = o1.getName().compareTo(o2.getName());
+                } catch (NullPointerException ex) {
+                    result = o1.getName() == null ? -1 : 1;
+                    if (o1.getName() == o2.getName()) result = 0;
+                }
+                return result == 0 ? o1.getAge() - o2.getAge() : result;
             }
         });
         return list;

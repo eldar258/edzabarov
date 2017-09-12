@@ -69,7 +69,7 @@ public class SortUserTest {
         List<User> expectedList = new ArrayList<>();
         expectedList.addAll(Arrays.asList(new User(), new User("n2", 15), new User(), new User("nam4", 0)));
         User[] expected = new SortUser().sortNameLength(expectedList).toArray(new User[0]);
-        User[] result = {new User("n2", 15), new User("nam4", 0), new User(), new User()};
+        User[] result = {new User(), new User(), new User("n2", 15), new User("nam4", 0)};
         assertThat(result, is(expected));
     }
     /**
@@ -80,7 +80,7 @@ public class SortUserTest {
         List<User> expectedList = new ArrayList<>();
         expectedList.addAll(Arrays.asList(new User("name1", 15), new User(), new User("name1", 20), new User("name2", 10), new User()));
         User[] expected = new SortUser().sortByAllFields(expectedList).toArray(new User[0]);
-        User[] result = {new User("name1", 15), new User("name1", 20), new User("name2", 10), new User(), new User()};
+        User[] result = {new User(), new User(), new User("name1", 15), new User("name1", 20), new User("name2", 10)};
         assertThat(result, is(expected));
     }
 }
