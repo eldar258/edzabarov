@@ -109,7 +109,9 @@ public class Directory {
         }
         try {
             sb.setLength(sb.length() - node.getValue().length() - 1); // удаляется последняя добавленная строка.
-        } catch (StringIndexOutOfBoundsException ex) { } //выбрасывается, если удаляемая строка первая.
+        } catch (StringIndexOutOfBoundsException ex) {
+            System.out.println("The first line is found. The deletion did not happen.");
+        } //выбрасывается, если удаляемая строка первая.
     }
     /**
      * interface of the for loop.
