@@ -3,7 +3,7 @@ package ru.job4j.benchmark;
 import java.util.ArrayList;
 
 /**
- * Class ru.job4j.benchmark.
+ * Class ru.ru.job4j.benchmark.
  *
  * @author edzabarov
  * @since 17.09.2017

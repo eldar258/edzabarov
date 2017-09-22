@@ -1,7 +1,7 @@
 package ru.job4j.bank;
 
 /**
- * Class ru.job4j.bank.
+ * Class ru.ru.job4j.bank.
  *
  * @author edzabarov
  * @since 14.09.2017

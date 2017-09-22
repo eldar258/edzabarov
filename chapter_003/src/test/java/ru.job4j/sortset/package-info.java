@@ -1,5 +1,5 @@
 /**
- * Class ru.job4j.sortset.
+ * Class ru.ru.job4j.sortset.
  *
  * @author edzabarov
  * @since 09.09.2017

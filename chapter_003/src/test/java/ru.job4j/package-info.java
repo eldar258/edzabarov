@@ -1,5 +1,5 @@
 /**
- * Class ru.job4j.
+ * Class ru.ru.job4j.
  *
  * @author edzabarov
  * @since 31.08.2017

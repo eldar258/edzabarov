@@ -1,7 +1,7 @@
 package ru.job4j.tracker;
 
 /**
- * Class ru.job4j.tracker.
+ * Class ru.ru.job4j.tracker.
  *
  * @author edzabarov
  * @since 15.08.2017

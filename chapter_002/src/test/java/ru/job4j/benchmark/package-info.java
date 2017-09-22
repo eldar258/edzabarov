@@ -1,5 +1,5 @@
 /**
- * Class ru.job4j.benchmark.
+ * Class ru.ru.job4j.benchmark.
  *
  * @author edzabarov
  * @since 27.08.2017

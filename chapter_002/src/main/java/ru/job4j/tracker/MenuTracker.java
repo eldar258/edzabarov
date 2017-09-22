@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class ru.job4j.tracker.
+ * Class ru.ru.job4j.tracker.
  *
  * @author edzabarov
  * @since 12.08.2017
