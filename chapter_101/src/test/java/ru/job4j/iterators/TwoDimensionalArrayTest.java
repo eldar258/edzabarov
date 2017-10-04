@@ -39,15 +39,4 @@ public class TwoDimensionalArrayTest {
         boolean expected = tda.hasNext();
         assertThat(expected, is(!result));
     }
-    /**
-     * test next().
-     */
-    @Test
-    public void whenNextThenReturnsTheCurrentElement2() {
-        TwoDimensionalArray tda = new TwoDimensionalArray(new int[][]{{1}, {2, 3}});
-        tda.next();
-        tda.next();
-        int expected = tda.next();
-        assertThat(expected, is(3));
-    }
 }

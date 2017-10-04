@@ -14,13 +14,9 @@ public class TwoDimensionalArray implements Iterator {
      */
     private int[][] array = null;
     /**
-     * row position.
+     * position.
      */
-    private int counti = 0;
-    /**
-     * column position.
-     */
-    private int countj = 0;
+    private int count = 0;
     /**
      * constructor.
      * @param array -
@@ -30,26 +26,14 @@ public class TwoDimensionalArray implements Iterator {
     }
     @Override
     public boolean hasNext() {
-        boolean result;
-        try {
-            int ptr = array[counti][countj];
-            result = true;
-        } catch (IndexOutOfBoundsException ex) {
-            result = false;
-        }
-        return result;
+        return count < array.length * array[0].length;
     }
-
     @Override
     public Integer next() {
-        int result;
-        try {
-            result = array[counti][countj++];
-        } catch (IndexOutOfBoundsException ex) {
-            counti++;
-            countj = 0;
-            result = array[counti][countj++];
-        }
+        int i = count / array.length;
+        int j = count % array[0].length;
+        int result = array[i][j];
+        count++;
         return result;
     }
     @Override
