@@ -1,6 +1,5 @@
 package ru.job4j.iterators;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -13,7 +12,7 @@ public class EvenNumbersIterator implements Iterator {
     /**
      * ArrayList even numbers.
      */
-    private ArrayList<Integer> evenNumbers;
+    private int[] array;
     /**
      * index current num.
      */
@@ -24,21 +23,30 @@ public class EvenNumbersIterator implements Iterator {
      * @param numbers -
      */
     public EvenNumbersIterator(final int[] numbers) {
-        this.evenNumbers = new ArrayList<>();
-        for (int el : numbers) {
-            if (el % 2 == 0) {
-                this.evenNumbers.add(el);
-            }
-        }
+        this.array = numbers;
     }
 
     @Override
     public boolean hasNext() {
-        return this.count < this.evenNumbers.size();
+        boolean result;
+        try {
+            do {
+                result = array[count] % 2 != 0;
+                if (result) count++;
+            } while (result);
+            result = true;
+        } catch (IndexOutOfBoundsException ex) {
+            result = false;
+        }
+        return result;
     }
     @Override
     public Integer next() {
-        return this.evenNumbers.get(this.count++);
+        int result;
+        do {
+            result = array[count++];
+        } while (result % 2 != 0);
+        return result;
     }
 
     @Override
