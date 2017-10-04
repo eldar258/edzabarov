@@ -1,6 +1,5 @@
 package ru.job4j.iterators;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -11,9 +10,9 @@ import java.util.Iterator;
  */
 public class PrimesNumberIterator implements Iterator {
     /**
-     * ArrayList prime numbers.
+     * prime numbers.
      */
-    private ArrayList<Integer> primesNumbers;
+    private int[] array;
     /**
      * index current num.
      */
@@ -24,32 +23,56 @@ public class PrimesNumberIterator implements Iterator {
      * @param numbers -
      */
     public PrimesNumberIterator(final int[] numbers) {
-        this.primesNumbers = new ArrayList<>();
-        for (int el : numbers) {
-            if (el <= 1) {
-                continue;
-            }
-            int n = ((int) Math.sqrt(el));
-            boolean ptr = true;
-            for (int i = 2; i <= n; i++) {
-                if (el % i == 0) {
-                    ptr = false;
-                    break;
-                }
-            }
-            if (ptr) {
-                this.primesNumbers.add(el);
-            }
-        }
+        this.array = numbers;
     }
 
     @Override
     public boolean hasNext() {
-        return this.count < this.primesNumbers.size();
+        boolean result = true;
+        int ptr;
+        do {
+            try {
+                ptr = array[count];
+            } catch (IndexOutOfBoundsException ex) {
+                result = false;
+                break;
+            }
+            if (ptr <= 1) {
+                count++;
+                continue;
+            }
+            int n = ((int) Math.sqrt(ptr));
+            for (int i = 2; i <= n; i++) {
+                if (ptr % i == 0) {
+                    result = false;
+                    count++;
+                    break;
+                }
+            }
+
+        } while (!result);
+        return result;
     }
     @Override
     public Integer next() {
-        return this.primesNumbers.get(this.count++);
+        int result;
+        boolean ptr;
+        do {
+            result = array[count++];
+            if (result <= 1) {
+                ptr = true;
+                continue;
+            }
+            ptr = false;
+            int n = ((int) Math.sqrt(result));
+            for (int i = 2; i <= n; i++) {
+                if (result % i == 0) {
+                    ptr = true;
+                    break;
+                }
+            }
+        } while (ptr);
+        return result;
     }
 
     @Override
