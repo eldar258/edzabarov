@@ -22,6 +22,15 @@ public class EvenNumbersIteratorTest {
         assertThat(expected, is(new int[]{2, 4, 6}));
     }
     /**
+     * next().
+     */
+    @Test
+    public void whenNextThenGetEvenNumbers2() {
+        EvenNumbersIterator eNum = new EvenNumbersIterator(new int[]{1, 2, 3, 4, 5, 6, 7});
+        int[] expected = {eNum.next(), eNum.next(), eNum.next()};
+        assertThat(expected, is(new int[]{2, 4, 6}));
+    }
+    /**
      * test hasNext().
      */
     @Test

@@ -1,6 +1,7 @@
 package ru.job4j.iterators;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Class for even numbers.
@@ -28,29 +29,33 @@ public class EvenNumbersIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        boolean result;
-        try {
-            do {
-                result = array[count] % 2 != 0;
-                if (result) count++;
-            } while (result);
-            result = true;
-        } catch (IndexOutOfBoundsException ex) {
-            result = false;
+        boolean result = false;
+        while (!result && count < array.length) {
+            if (isEvenNumber(array[count])) {
+                result = true;
+            } else {
+                count++;
+            }
         }
         return result;
     }
     @Override
     public Integer next() {
         int result;
-        do {
+        if (hasNext()) {
             result = array[count++];
-        } while (result % 2 != 0);
+        } else {
+            throw new NoSuchElementException();
+        }
         return result;
     }
 
-    @Override
-    public void remove() {
-
+    /**
+     * check number is even.
+     * @param value - number.
+     * @return -
+     */
+    private boolean isEvenNumber(int value) {
+        return value % 2 == 0;
     }
 }
