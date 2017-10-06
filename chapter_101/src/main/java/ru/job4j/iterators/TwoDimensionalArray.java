@@ -1,6 +1,7 @@
 package ru.job4j.iterators;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Class ru.ru.job4j.iterators.
@@ -31,10 +32,9 @@ public class TwoDimensionalArray implements Iterator {
     @Override
     public boolean hasNext() {
         boolean result;
-        try {
-            int ptr = array[counti][countj];
+        if (checkIndex()) {
             result = true;
-        } catch (IndexOutOfBoundsException ex) {
+        } else {
             result = false;
         }
         return result;
@@ -43,17 +43,25 @@ public class TwoDimensionalArray implements Iterator {
     @Override
     public Integer next() {
         int result;
-        try {
+        if (checkIndex()) {
             result = array[counti][countj++];
-        } catch (IndexOutOfBoundsException ex) {
+        } else {
             counti++;
             countj = 0;
-            result = array[counti][countj++];
+            if (checkIndex()) {
+                result = array[counti][countj++];
+            } else {
+                throw new NoSuchElementException();
+            }
         }
         return result;
     }
-    @Override
-    public void remove() {
 
+    /**
+     * check index out of array.
+     * @return -
+     */
+    private boolean checkIndex() {
+        return counti < array.length && countj < array[counti].length;
     }
 }
