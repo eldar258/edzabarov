@@ -1,6 +1,7 @@
 package ru.job4j.iterators;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Class Iterator for primes number.
@@ -28,55 +29,45 @@ public class PrimesNumberIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        boolean result = true;
-        int ptr;
-        do {
-            try {
-                ptr = array[count];
-            } catch (IndexOutOfBoundsException ex) {
-                result = false;
-                break;
-            }
-            if (ptr <= 1) {
+        boolean result = false;
+        while (!result && count < array.length) {
+            if (isPrimeNumber(array[count])) {
+                result = true;
+            } else {
                 count++;
-                continue;
             }
-            int n = ((int) Math.sqrt(ptr));
-            for (int i = 2; i <= n; i++) {
-                if (ptr % i == 0) {
-                    result = false;
-                    count++;
-                    break;
-                }
-            }
-
-        } while (!result);
+        }
         return result;
     }
     @Override
     public Integer next() {
         int result;
-        boolean ptr;
-        do {
+        if (hasNext()) {
             result = array[count++];
-            if (result <= 1) {
-                ptr = true;
-                continue;
-            }
-            ptr = false;
-            int n = ((int) Math.sqrt(result));
-            for (int i = 2; i <= n; i++) {
-                if (result % i == 0) {
-                    ptr = true;
-                    break;
-                }
-            }
-        } while (ptr);
+        } else {
+            throw new NoSuchElementException();
+        }
         return result;
     }
 
-    @Override
-    public void remove() {
-
+    /**
+     * check is prime number.
+     * @param value checker number.
+     * @return -
+     */
+    private boolean isPrimeNumber(int value) {
+        boolean result = true;
+        if (value > 1) {
+            int n = ((int) Math.sqrt(value));
+            for (int i = 2; i <= n; i++) {
+                if (value % i == 0) {
+                    result = false;
+                    break;
+                }
+            }
+        } else {
+            result = false;
+        }
+        return result;
     }
 }

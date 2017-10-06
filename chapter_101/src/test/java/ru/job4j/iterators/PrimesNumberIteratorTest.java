@@ -24,6 +24,16 @@ public class PrimesNumberIteratorTest {
         assertThat(expected, is(result));
     }
     /**
+     * next().
+     */
+    @Test
+    public void whenNextThenGetPrimeNumbers2() {
+        PrimesNumberIterator pNum = new PrimesNumberIterator(new int[]{1, 2, 3, 4, 5, 6, 7});
+        int[] expected  = {pNum.next(), pNum.next(), pNum.next(), pNum.next()};
+        int[] result = {2, 3, 5, 7};
+        assertThat(expected, is(result));
+    }
+    /**
      * test hasNext().
      */
     @Test
