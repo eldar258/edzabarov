@@ -11,7 +11,7 @@ public class SimpleArray<T> {
     /**
      * array.
      */
-    private Object[] array;
+    private T[] array;
     /**
      * count for adding.
      */
@@ -22,7 +22,13 @@ public class SimpleArray<T> {
      * @param size - base size to array.
      */
     public SimpleArray(int size) {
-        this.array = new Object[size];
+        this.array = (T[]) new Object[size];
+    }
+    /**
+     * constructor.
+     */
+    public SimpleArray() {
+        this(16);
     }
 
     /**
@@ -31,6 +37,11 @@ public class SimpleArray<T> {
      * @return value.
      */
     public T add(T value) {
+        if (count == array.length) {
+            T[] arrayCopy = (T[]) new Object[(int) (array.length * 1.7)];
+            System.arraycopy(array, 0, arrayCopy, 0, array.length);
+            array = arrayCopy;
+        }
         array[count++] = value;
         return value;
     }
@@ -42,14 +53,17 @@ public class SimpleArray<T> {
      * @return - updated value.
      */
     public T update(int index, T value) {
+        rangeCheck(index);
+        T oldValue = array[index];
         array[index] = value;
-        return value;
+        return oldValue;
     }
     /**
      * delete value.
      * @param index -
      */
     public void delete(int index) {
+        rangeCheck(index);
         array[index] = null;
     }
     /**
@@ -58,6 +72,17 @@ public class SimpleArray<T> {
      * @return -
      */
     public T get(int index) {
-        return (T) array[index];
+        rangeCheck(index);
+        return array[index];
+    }
+
+    /**
+     * Checks if the given index is in range.
+     * @param index -
+     */
+    private void rangeCheck(int index) {
+        if (index < 0 || index >= array.length) {
+            throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, array.length));
+        }
     }
 }
