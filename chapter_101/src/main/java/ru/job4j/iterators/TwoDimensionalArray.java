@@ -29,13 +29,14 @@ public class TwoDimensionalArray implements Iterator {
     public TwoDimensionalArray(int[][] array) {
         this.array = array;
     }
+
     @Override
     public boolean hasNext() {
-        boolean result;
-        if (checkIndex()) {
-            result = true;
-        } else {
-            result = false;
+        boolean result = checkIndex();
+        if (!result) {
+            counti++;
+            countj = 0;
+            result = checkIndex();
         }
         return result;
     }
@@ -43,16 +44,10 @@ public class TwoDimensionalArray implements Iterator {
     @Override
     public Integer next() {
         int result;
-        if (checkIndex()) {
+        if (hasNext()) {
             result = array[counti][countj++];
         } else {
-            counti++;
-            countj = 0;
-            if (checkIndex()) {
-                result = array[counti][countj++];
-            } else {
-                throw new NoSuchElementException();
-            }
+            throw new NoSuchElementException();
         }
         return result;
     }

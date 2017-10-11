@@ -1,6 +1,10 @@
 package ru.job4j.iterators;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.util.NoSuchElementException;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -37,17 +41,24 @@ public class TwoDimensionalArrayTest {
     }
 
     /**
+     * ExpectedException.
+     */
+    @Rule
+    public final ExpectedException expected = ExpectedException.none();
+    /**
      * test hasNext().
      */
     @Test
     public void whenTheElementsWereFinishedThenHasNextReturnsFalse() {
-        TwoDimensionalArray tda = new TwoDimensionalArray(new int[][]{{1, 2}, {3, 4}});
-        tda.next();
-        tda.next();
-        tda.next();
-        boolean result = tda.hasNext();
-        tda.next();
-        boolean expected = tda.hasNext();
-        assertThat(expected, is(!result));
+        TwoDimensionalArray it = new TwoDimensionalArray(new int[][]{{1}, {4, 5}});
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(1));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(4));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(5));
+        assertThat(it.hasNext(), is(false));
+        expected.expect(NoSuchElementException.class);
+        it.next();
     }
 }
