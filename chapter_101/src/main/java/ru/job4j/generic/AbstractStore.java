@@ -5,12 +5,13 @@ package ru.job4j.generic;
  *
  * @author edzabarov
  * @since 05.10.2017
+ * @param <T> - Generic.
  */
-public abstract class AbstractStore implements Store<Base> {
+public abstract class AbstractStore<T extends Base> implements Store<T> {
     /**
       * simpleArray.
       */
-  private SimpleArray<Base> simpleArray;
+  private SimpleArray<T> simpleArray;
 
     /**
      * Constructor.
@@ -19,15 +20,15 @@ public abstract class AbstractStore implements Store<Base> {
         simpleArray = new SimpleArray<>();
     }
     @Override
-    public Base add(Base value) {
+    public T add(T value) {
         return simpleArray.add(value);
     }
     @Override
-    public Base update(Base value) {
+    public T update(T value) {
         return simpleArray.update(value);
     }
     @Override
-    public boolean delete(Base value) {
+    public boolean delete(T value) {
         return simpleArray.delete(value);
     }
 }
