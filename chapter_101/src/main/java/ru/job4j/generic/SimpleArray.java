@@ -48,23 +48,36 @@ public class SimpleArray<T> {
 
     /**
      * update value in array.
-     * @param index -
      * @param value -
      * @return - updated value.
      */
-    public T update(int index, T value) {
-        rangeCheck(index);
-        T oldValue = array[index];
-        array[index] = value;
-        return oldValue;
+    public T update(T value) {
+        if (value != null) {
+            int index = indexOf(value);
+            if (index != -1) {
+                array[index] = value;
+            }
+        }
+        return value;
     }
     /**
      * delete value.
-     * @param index -
+     * @param value -
+     * @return -
      */
-    public void delete(int index) {
-        rangeCheck(index);
-        array[index] = null;
+    public boolean delete(T value) {
+        boolean result = false;
+        if (value != null) {
+            int index = indexOf(value);
+            if (index != -1) {
+                result = true;
+                T[] tempArray = (T[]) new Object[array.length];
+                System.arraycopy(array, 0, tempArray, 0, index);
+                System.arraycopy(array, index + 1, tempArray, index + 1, count);
+                array = tempArray;
+            }
+        }
+        return result;
     }
     /**
      * get value.
@@ -81,8 +94,22 @@ public class SimpleArray<T> {
      * @param index -
      */
     private void rangeCheck(int index) {
-        if (index < 0 || index >= array.length) {
-            throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, array.length));
+        if (index < 0 || index >= count) {
+            throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, count));
         }
+    }
+
+    /**
+     * return index.
+     * @param search -
+     * @return -
+     */
+    private int indexOf(T search) {
+        for (int i = 0; i < count; i++) {
+            if (array[i] != null && array[i].hashCode() == search.hashCode() && array[i].equals(search)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
