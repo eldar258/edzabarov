@@ -15,12 +15,6 @@ public class SimpleLinkedList<E> implements Iterable<E> {
      * head of list.
      */
     private Entry<E> header = new Entry<E>(null, null, null);
-    private Entry<E> lastEntry = header;
-
-    public SimpleLinkedList() {
-        header.next = lastEntry;
-    }
-
     /**
      * number of elements in list.
      */
@@ -29,7 +23,7 @@ public class SimpleLinkedList<E> implements Iterable<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            private Entry<E> head = header.next;
+            private Entry<E> head = header;
 
             @Override
             public boolean hasNext() {
@@ -49,10 +43,12 @@ public class SimpleLinkedList<E> implements Iterable<E> {
     /**
      * add element.
      * @param e -
+     * @param entry -
      */
-    public void add(E e) {
-        lastEntry = new Entry<E>(e, null, lastEntry);
-        lastEntry.prev.next = lastEntry;
+    private void add(E e, Entry<E> entry) {
+        Entry<E> newEntry = new Entry<E>(e, entry, entry.prev);
+        newEntry.prev.next = newEntry;
+        newEntry.next.prev = newEntry;
         size++;
     }
 
@@ -61,7 +57,7 @@ public class SimpleLinkedList<E> implements Iterable<E> {
      * @param index -
      * @return -
      */
-    public E get(int index) {
+    private E get(int index) {
         return entry(index).element;
     }
 
