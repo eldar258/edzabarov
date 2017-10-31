@@ -25,6 +25,12 @@ public class NodeTest {
     @Test
     public void whenCyclicListThenHasCycleReturnTrue() {
         four.next = two;
+        assertThat(new Node<>(0).hasCycle(two), is(true));
+    }
+
+    @Test
+    public void whenCyclicListAndFirstNodeNotIncludedInTheCycleThenHasCycleReturnTrue() {
+        four.next = two;
         assertThat(new Node<>(0).hasCycle(one), is(true));
     }
 

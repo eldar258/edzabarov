@@ -1,5 +1,7 @@
 package ru.job4j.list;
 
+import ru.job4j.generic.SimpleArray;
+
 import java.util.HashSet;
 
 /**
@@ -17,13 +19,19 @@ public class Node<T> {
         this.value = value;
     }
 
-    boolean hasCycle(Node node) {
-        boolean result = true;
-        HashSet<Node> hashSet = new HashSet<>();
-        while (node != null && result) {
-            result = hashSet.add(node);
+    public boolean hasCycle(Node node) {
+        boolean result = false;
+        SimpleArrayList<Node> simpleArrayList = new SimpleArrayList<>();
+        while (node != null && !result) {
+            for (Node el : simpleArrayList) {
+                if (node == el) {
+                    result = true;
+                    break;
+                }
+            }
+            simpleArrayList.add(node);
             node = node.next;
         }
-        return !result;
+        return result;
     }
 }
