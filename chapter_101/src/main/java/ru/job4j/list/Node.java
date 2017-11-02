@@ -21,16 +21,16 @@ public class Node<T> {
 
     public boolean hasCycle(Node node) {
         boolean result = false;
-        SimpleArrayList<Node> simpleArrayList = new SimpleArrayList<>();
-        while (node != null && !result) {
-            for (Node el : simpleArrayList) {
-                if (node == el) {
-                    result = true;
-                    break;
-                }
+        if (node == null || node.next == null) return false;
+        Node first = node;
+        Node second = node.next;
+        while (second != null && second.next != null) {
+            if (first == second) {
+                result = true;
+                break;
             }
-            simpleArrayList.add(node);
-            node = node.next;
+            first = first.next;
+            second = second.next.next;
         }
         return result;
     }
