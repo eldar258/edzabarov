@@ -1,6 +1,5 @@
 package ru.job4j.set;
 
-import ru.job4j.generic.SimpleArray;
 import ru.job4j.list.SimpleArrayList;
 
 import java.util.Iterator;
@@ -14,12 +13,17 @@ import java.util.NoSuchElementException;
  */
 public class SimpleHashSet<E> implements Iterable<E> {
     private Object[] container;
-    private int scopeHashFunDef = 1000;
+    private int scopeHashFunDef;
     private SimpleArrayList<Integer> indices;
 
-    public SimpleHashSet() {
-        container = new Object[scopeHashFunDef];
+    public SimpleHashSet(int scopeHashFunDef) {
+        this.scopeHashFunDef = scopeHashFunDef;
+        container = new Object[this.scopeHashFunDef];
         indices = new SimpleArrayList<>();
+    }
+
+    public SimpleHashSet() {
+        this(1000);
     }
     @Override
     public Iterator<E> iterator() {
@@ -38,19 +42,29 @@ public class SimpleHashSet<E> implements Iterable<E> {
         };
     }
     public boolean add(E value) {
+        boolean result = true;
         if (value == null) return false;
         int hashCode = Math.abs(value.hashCode() % scopeHashFunDef);
+        int hashcodeTemp = hashCode;
         while (container[hashCode] != null) {
             if (value.equals(container(hashCode))) {
-                return false;
+                result = false;
+                break;
             } else {
                 hashCode++;
-                hashCode %= 1000;
+                hashCode %= scopeHashFunDef;
+                if (hashcodeTemp == hashCode) {
+                    result = false;
+                    break;
+                }
             }
         }
-        container[hashCode] = value;
-        indices.add(hashCode);
-        return true;
+        if (result) {
+            container[hashCode] = value;
+            indices.add(hashCode);
+            result = true;
+        }
+        return result;
     }
     @SuppressWarnings("unchecked")
     private E container(int index) {

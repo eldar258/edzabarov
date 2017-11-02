@@ -12,9 +12,12 @@ import static org.junit.Assert.*;
  * @since 01.11.2017
  */
 public class SimpleHashSetTest {
-    public SimpleHashSet<String> simpleSet = new SimpleHashSet<>();
-    String[] result = new String[10];
-    {
+    public SimpleHashSet<String> simpleSet;
+    public String[] result = new String[10];
+
+    public void createRawData(int scope) {
+        simpleSet = new SimpleHashSet<>(scope);
+        result = new String[10];
         simpleSet.add("test1");
         simpleSet.add("test2");
         simpleSet.add("test3");
@@ -23,14 +26,29 @@ public class SimpleHashSetTest {
         result[2] = "test3";
     }
 
-    @Test
-    public void whenSimpleSetAddSameElementsThenInSimpleSetContainsDifferentElements() {
-        simpleSet.add("test1");
-        String[] expected = new String[10];
+    public void convertArray(String[] expected) {
         int i = 0;
         for (String el : simpleSet) {
             expected[i++] = el;
         }
+    }
+
+    @Test
+    public void whenSimpleSetAddSameElementsThenInSimpleSetContainsDifferentElements() {
+        createRawData(1000);
+        boolean boolFalse = simpleSet.add("test1");
+        String[] expected = new String[10];
+        convertArray(expected);
         assertThat(expected, is(result));
+        assertThat(boolFalse, is(false));
+    }
+    @Test
+    public void whenSimpleSetScopeHashExactlyThreeThenSetContainsDifferentElements() {
+        createRawData(3);
+        boolean boolFalse = simpleSet.add("test4");
+        String[] expected = new String[10];
+        convertArray(expected);
+        assertThat(expected, is(result));
+        assertThat(boolFalse, is(false));
     }
 }
