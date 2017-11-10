@@ -22,6 +22,6 @@ public class UserTest {
         Map<User, String> map = new HashMap<>();
         map.put(first, "one");
         map.put(second, "two");
-        System.out.println(first.equals(second) + " " + map);
+        System.out.println((first.hashCode() == second.hashCode()) + " " + first.equals(second) + " " + map);
     }
 }
