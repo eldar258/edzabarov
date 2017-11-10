@@ -58,8 +58,12 @@ public class User {
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         return birthday != null ? birthday.equals(user.birthday) : user.birthday == null;
     }
+
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = name.hashCode();
+        result = 31 * result + children;
+        result = 31 * result + birthday.hashCode();
+        return result;
     }
 }
