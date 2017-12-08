@@ -46,7 +46,7 @@ public class DirectoryMap<K, V> implements Iterable<V> {
         boolean result = true;
         if (key == null) return false;
         int hashCode = Math.abs(key.hashCode() % scopeHashFunDef);
-        if(container[hashCode] != null && container[hashCode].equals(value)) {
+        if (container[hashCode] != null && container[hashCode].equals(value)) {
             result = false;
         } else {
             container[hashCode] = value;
