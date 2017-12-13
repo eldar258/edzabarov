@@ -18,6 +18,7 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public boolean add(E parent, E child) {
+        if (parent.equals(child)) return false;
         boolean result = false;
         Optional<Node<E>> parentNode = findByValue(parent);
         if (parentNode.isPresent()) {
@@ -47,6 +48,27 @@ class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new Iterator<E>() {
+            Queue<Node<E>> data = new LinkedList<>();
+            {
+                data.offer(root);
+            }
+
+            @Override
+            public boolean hasNext() {
+                return !data.isEmpty();
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) throw new NoSuchElementException();
+                Node<E> el = data.poll();
+                E currentEl = el.getValue();
+                for (Node<E> child : el.getChildren()) {
+                    data.offer(child);
+                }
+                return currentEl;
+            }
+        };
     }
 }
