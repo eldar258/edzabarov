@@ -31,6 +31,4 @@ public class SimpleSAXParserTest {
         Order[] expected = {parsingData.get("book-1").get("1"), parsingData.get("book-1").get("3")};
         assertThat(expected, is(result));
     }
-
-
 }
