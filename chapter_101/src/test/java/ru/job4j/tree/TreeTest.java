@@ -52,4 +52,16 @@ public class TreeTest {
         result.addAll(Arrays.asList(1, 2, 3));
         assertThat(expected, is(result));
     }
+    @Test
+    public void whenTreeIsBinaryThenReturnTrue () {
+        createData();
+        assertThat(tree.isBinary(), is(true));
+    }
+    @Test
+    public void whenTreeIsNotBinaryThenReturnFalse () {
+        createData();
+        tree.add(1, 4);
+        tree.add(1, 5);
+        assertThat(tree.isBinary(), is(false));
+    }
 }
