@@ -9,10 +9,6 @@ import java.util.*;
  * @since 07.12.2017
  */
 public class Distributor {
-    /**
-     * first key - name book.
-     * second key - id of order.
-     */
     private Map<String, Map<String, Order>> data = new HashMap<>();
 
     public void putOrder(Order order) {
@@ -70,9 +66,5 @@ public class Distributor {
         } else {
             builder.append(String.format("%s@%s", order.getVolume(), order.getPrice()));
         }
-    }
-
-    public Map<String, Map<String, Order>> getData() {
-        return data;
     }
 }
