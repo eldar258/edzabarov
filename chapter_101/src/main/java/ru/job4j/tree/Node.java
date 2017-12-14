@@ -19,7 +19,7 @@ public class Node<E> {
     public void add(Node<E> child) {
         children.add(child);
     }
-    public List<Node<E>> getChildren () {
+    public List<Node<E>> getChildren() {
         return children;
     }
     public boolean equalsValue(E other) {

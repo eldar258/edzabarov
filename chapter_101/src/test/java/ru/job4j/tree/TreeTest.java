@@ -53,12 +53,12 @@ public class TreeTest {
         assertThat(expected, is(result));
     }
     @Test
-    public void whenTreeIsBinaryThenReturnTrue () {
+    public void whenTreeIsBinaryThenReturnTrue() {
         createData();
         assertThat(tree.isBinary(), is(true));
     }
     @Test
-    public void whenTreeIsNotBinaryThenReturnFalse () {
+    public void whenTreeIsNotBinaryThenReturnFalse() {
         createData();
         tree.add(1, 4);
         tree.add(1, 5);
