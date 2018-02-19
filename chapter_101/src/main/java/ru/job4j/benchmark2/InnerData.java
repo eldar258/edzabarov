@@ -10,8 +10,8 @@ import java.util.HashMap;
  */
 public class InnerData {
 
-    public boolean cheсkData(String data1, String data2) {
-        if(data1.length() != data2.length()) return false;
+    public boolean checkData(String data1, String data2) {
+        if (data1.length() != data2.length()) return false;
 
         HashMap<Character, Integer> numCharData1 = new HashMap<>();
         for (int i = 0; i < data1.length(); i++) {
