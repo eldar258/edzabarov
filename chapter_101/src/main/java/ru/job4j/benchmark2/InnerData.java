@@ -12,27 +12,20 @@ public class InnerData {
 
     public boolean cheсkData(String data1, String data2) {
         if(data1.length() != data2.length()) return false;
-        HashMap<Character, MyInteger> numCharData1 = readWord(data1);
-        HashMap<Character, MyInteger> numCharData2 = readWord(data2);
+
+        HashMap<Character, Integer> numCharData1 = new HashMap<>();
+        for (int i = 0; i < data1.length(); i++) {
+            numCharData1.merge(data1.charAt(i), 1, (a, b) -> a + b);
+        }
+
         boolean result = true;
-        for (Character key : numCharData1.keySet()) {
-            if (!numCharData1.get(key).equals(numCharData2.get(key))) {
+        HashMap<Character, Integer> numCharData2 = new HashMap<>();
+        for (int i = 0; i < data2.length(); i++) {
+            Character currentChar = data2.charAt(i);
+            numCharData2.merge(data2.charAt(i), 1, (a, b) -> a + b);
+            if (numCharData1.getOrDefault(currentChar, 0) < numCharData2.get(currentChar)) {
                 result = false;
                 break;
-            }
-        }
-        return result;
-    }
-
-    private HashMap<Character, MyInteger> readWord(String value) {
-        HashMap<Character, MyInteger> result = new HashMap<>();
-        for (int i = 0; i < value.length(); i++) {
-            char currentChar = value.charAt(i);
-            MyInteger numChar = result.get(currentChar);
-            if (numChar == null) {
-                result.put(currentChar, new MyInteger(1));
-            } else {
-                numChar.iterate();
             }
         }
         return result;

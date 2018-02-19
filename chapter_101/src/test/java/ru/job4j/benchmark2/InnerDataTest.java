@@ -33,7 +33,7 @@ public class InnerDataTest {
     }
 
     @Test
-    public void whenLetterInWordAreNotSameThenTrue() {
+    public void whenLetterInWordAreNotSameThenFalse() {
         String string1 = "circle";
         String string2 = "square";
         boolean expected = innerData.cheсkData(string1, string2);
@@ -42,9 +42,27 @@ public class InnerDataTest {
     }
 
     @Test
-    public void whenLetterInWordAreNotSameThenTrue2() {
+    public void whenLetterInWordAreNotSameThenFalse2() {
         String string1 = "job4j";
         String string2 = "javarash";
+        boolean expected = innerData.cheсkData(string1, string2);
+        boolean result = false;
+        assertThat(expected, is(result));
+    }
+
+    @Test
+    public void whenLetterInWordAreNotSameThenFalse3() {
+        String string1 = "111226";
+        String string2 = "111222";
+        boolean expected = innerData.cheсkData(string1, string2);
+        boolean result = false;
+        assertThat(expected, is(result));
+    }
+
+    @Test
+    public void whenLetterInWordAreNotSameThenFalse4() {
+        String string1 = "111222";
+        String string2 = "111226";
         boolean expected = innerData.cheсkData(string1, string2);
         boolean result = false;
         assertThat(expected, is(result));
