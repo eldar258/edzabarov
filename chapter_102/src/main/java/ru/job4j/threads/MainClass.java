@@ -10,8 +10,19 @@ public class MainClass {
     public static void main(String[] args) {
         System.out.println("start");
         String string = "I am studying java on job4j !! There are 16 words and 16 spaces in this line.";
-        new Thread(new CountSpacesInStringThread(string)).start();
-        new Thread(new CountWordsInStringThread(string)).start();
+
+        Thread countSpaceInStringThread =  new Thread(new CountSpacesInStringThread(string));
+        countSpaceInStringThread.start();
+
+        Thread countWordInStringThread = new Thread(new CountWordsInStringThread(string));
+        countWordInStringThread.start();
+
+        try {
+            countSpaceInStringThread.join();
+            countWordInStringThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("finish");
     }
 }
