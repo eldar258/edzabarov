@@ -23,7 +23,7 @@ public class User {
         return amount;
     }
 
-    public synchronized void addAmount(int amount) {
+    public void addAmount(int amount) {
         this.amount += amount;
     }
 

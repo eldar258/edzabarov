@@ -17,15 +17,11 @@ public class UserStore {
     @GuardedBy("this")
     private Map<Integer, User> users = new HashMap<>();
 
-    public boolean add(User user) {
-        boolean result = !users.containsKey(user.getId());
-        if (result) {
-            users.put(user.getId(), user);
-        }
-        return result;
+    public synchronized boolean add(User user) {
+        return users.putIfAbsent(user.getId(), user) == null;
     }
 
-    public void transfer(int id1, int id2, int value) {
+    public synchronized void transfer(int id1, int id2, int value) {
         if (id1 == id2 || value <= 0) return;
         User user1 = users.get(id1);
         User user2 = users.get(id2);
@@ -35,11 +31,11 @@ public class UserStore {
         }
     }
 
-    public boolean update(User user) {
+    public synchronized boolean update(User user) {
         return users.put(user.getId(), user) != null;
     }
 
-    public boolean delete(User user) {
+    public synchronized boolean delete(User user) {
         return users.remove(user.getId()) != null;
     }
 }
