@@ -12,31 +12,26 @@ import net.jcip.annotations.ThreadSafe;
 @ThreadSafe
 public class Lock {
     @GuardedBy("this")
-    private boolean isLock = false;
-    private final Object lock = new Object();
+    private Thread owner;
 
     public void lock() {
         synchronized (this) {
-            this.notify();
-            if (isLock) {
+            while (owner != null) {
                 try {
-                    while (isLock) {
-                        this.wait();
-                    }
+                    this.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
             }
-            isLock = true;
+            owner = Thread.currentThread();
         }
     }
 
     public void unlock() {
         synchronized (this) {
-            if (isLock) {
-                isLock = false;
-                this.notify();
+            if (owner == Thread.currentThread()) {
+                owner = null;
+                this.notifyAll();
             }
         }
     }
