@@ -3,11 +3,8 @@ package ru.job4j.notyfyall.threadpool;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Class ru.job4j.monitore.threadpool.
@@ -18,10 +15,26 @@ import java.util.concurrent.Future;
 @ThreadSafe
 public class ThreadPool {
     @GuardedBy("this")
+    private final int countCore =  Runtime.getRuntime().availableProcessors();
+    private final Queue<Work> queue = new LinkedList<>();
 
-    private final ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    public void add(Work work) {
+        synchronized (this) {
+            this.notifyAll();
+            while (isPoolFull()) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            queue.add(work);
+            work.setQueue(queue);
+            new Thread(work).start();
+        }
+    }
 
-    public Future add(Work work) {
-        return pool.submit(work);
+    private boolean isPoolFull() {
+        return queue.size() == countCore;
     }
 }
