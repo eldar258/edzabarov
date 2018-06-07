@@ -7,7 +7,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-
+import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Class ru.job4j.notyfyall.search.
  *
@@ -24,7 +24,7 @@ public class ParallelSearch {
     private volatile boolean finish = false;
 
     @GuardedBy("this")
-    private final Queue<String> files = new LinkedList<>();
+    private final Queue<String> files = new ConcurrentLinkedQueue<>();
 
     @GuardedBy("this")
     private final Queue<String> paths = new LinkedList<>();
@@ -63,18 +63,12 @@ public class ParallelSearch {
                             e.printStackTrace();
                         }
                     } else {
-                        synchronized (files) {
                             file = new File(files.poll());
-                        }
-                        //if (file == null) continue;
-                        try {
-                            Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(file)));
+                        try (Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(file)))) {
                             while (scanner.hasNextLine()) {
                                 if (scanner.nextLine().contains(text)) {
-                                    synchronized (paths) {
-                                        paths.add(file.getAbsolutePath());
-                                        break;
-                                    }
+                                    paths.add(file.getAbsolutePath());
+                                    break;
                                 }
                             }
                         } catch (FileNotFoundException e) {
@@ -109,12 +103,10 @@ public class ParallelSearch {
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
             String fullName = file.getFileName().toString();
             int temp = fullName.lastIndexOf(".");
-            String ext = fullName.substring(temp + 1);
-            if (!ext.isEmpty() && exts.contains(ext)) {
-                synchronized (files) {
-                    files.add(file.toString());
-                    notifyAll();
-                }
+            String ext;
+            ext = (temp == -1) ? "" : fullName.substring(temp + 1);
+            if (exts.contains(ext)) {
+                files.add(file.toString());
             }
             return FileVisitResult.CONTINUE;
         }
