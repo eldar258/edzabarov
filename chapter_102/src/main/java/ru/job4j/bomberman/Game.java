@@ -48,7 +48,6 @@ public class Game {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        board[source.getPosH()][source.getPosW()].unlock();
         return result;
     }
 
@@ -79,8 +78,6 @@ public class Game {
 
         for (int el : options) {
             cells.add(new Cell(cell.getPosH() + step * el, cell.getPosW()));
-        }
-        for (int el : options) {
             cells.add(new Cell(cell.getPosH(), cell.getPosW() + step * el));
         }
         cells = checkCells(cells);
@@ -102,6 +99,7 @@ public class Game {
                 do {
                     dist = GetRandomCell(posHero, 1);
                 } while (move(posHero, dist));
+                board[posHero.getPosH()][posHero.getPosW()].unlock();
                 posHero = dist;
                 try {
                     Thread.sleep(1000);
