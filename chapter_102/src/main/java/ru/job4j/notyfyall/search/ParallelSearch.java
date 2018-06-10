@@ -23,11 +23,13 @@ public class ParallelSearch {
     private final List<String> exts;
     private volatile boolean finish = false;
 
+    private final Object lock = new Object();
+
     @GuardedBy("this")
     private final Queue<String> files = new ConcurrentLinkedQueue<>();
 
     @GuardedBy("this")
-    private final Queue<String> paths = new LinkedList<>();
+    private final Queue<String> paths = new ConcurrentLinkedQueue<>();
 
 
     public ParallelSearch(String root, String text, List<String> exts) {
@@ -47,32 +49,32 @@ public class ParallelSearch {
                     e.printStackTrace();
                 }
                 finish = true;
-                notifyAll();
+                synchronized (lock) {
+                    lock.notifyAll();
+                }
             }
         };
         Thread read = new Thread() {
             @Override
             public void run() {
                 super.run();
-                File file = null;
-                while (!finish) {
+                while (!(files.isEmpty() && finish)) {
                     if (files.isEmpty()) {
                         try {
-                            this.wait();
+                            synchronized (lock) {
+                                lock.wait();
+                            }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     } else {
-                            file = new File(files.poll());
-                        try (Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(file)))) {
-                            while (scanner.hasNextLine()) {
-                                if (scanner.nextLine().contains(text)) {
-                                    paths.add(file.getAbsolutePath());
-                                    break;
-                                }
-                            }
-                        } catch (FileNotFoundException e) {
+                        String path = files.poll();
+                        try {
+
+                            if (Files.lines(Paths.get(path)).anyMatch(el -> el.contains(text))) paths.add(path);
+                        } catch (Exception e) {
                             e.printStackTrace();
+                            System.out.println(path);
                         }
                     }
                 }
@@ -107,7 +109,9 @@ public class ParallelSearch {
             ext = (temp == -1) ? "" : fullName.substring(temp + 1);
             if (exts.contains(ext)) {
                 files.add(file.toString());
-                notifyAll();
+                synchronized (lock) {
+                    lock.notifyAll();
+                }
             }
             return FileVisitResult.CONTINUE;
         }
