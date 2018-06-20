@@ -96,7 +96,7 @@ public class Game {
         return !next && !board[i][j].isLocked();
     }
 
-    public Cell GetRandomCell(Cell cell, int step) {
+    public Cell getRandomCell(Cell cell, int step) {
         Cell result = null;
         List<Cell> cells = new ArrayList<>();
         int[] options = new int[2];
@@ -133,7 +133,7 @@ public class Game {
         return result;
     }
 
-    private class Hero implements Runnable{
+    private class Hero implements Runnable {
         private Cell posHero;
         private HeroMove[] moving;
         private int moveInto = -1;

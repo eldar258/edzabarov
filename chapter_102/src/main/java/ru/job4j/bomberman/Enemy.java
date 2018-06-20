@@ -20,7 +20,7 @@ public class Enemy implements Runnable {
         while (true) {
             Cell dist;
             do {
-                dist = game.GetRandomCell(pos, 1);
+                dist = game.getRandomCell(pos, 1);
             } while (game.move(pos, dist, 5000));
             game.getBoard()[pos.getPosH()][pos.getPosW()].unlock();
             pos = dist;
