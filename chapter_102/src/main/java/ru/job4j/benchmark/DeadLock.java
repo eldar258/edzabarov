@@ -1,6 +1,8 @@
 package ru.job4j.benchmark;
 
 
+import java.util.concurrent.CountDownLatch;
+
 /**
  * Class ru.job4j.benchmark.
  *
@@ -10,12 +12,12 @@ package ru.job4j.benchmark;
 public class DeadLock {
     private final Object lock1 = new Object();
     private final Object lock2 = new Object();
-
-    private volatile int count = 0;
+    private CountDownLatch cdl = new CountDownLatch(2);
 
     public static void main(String[] args) {
         new DeadLock().go();
     }
+
     private void go() {
         Thread deadThread1 = new Thread(new DeadThread1());
         Thread deadThread2 = new Thread(new DeadThread2());
@@ -28,13 +30,11 @@ public class DeadLock {
         @Override
         public void run() {
             synchronized (lock1) {
-                if (count != 0) {
-                    count++;
-                } else {
-                    count = 2;
-                }
-                while (count < 2) {
-                    Thread.yield();
+                cdl.countDown();
+                try {
+                    cdl.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 System.out.println("Yes!");
                 synchronized (lock2) {
@@ -48,13 +48,11 @@ public class DeadLock {
         @Override
         public void run() {
             synchronized (lock2) {
-                if (count != 0) {
-                    count++;
-                } else {
-                    count = 2;
-                }
-                while (count < 2) {
-                    Thread.yield();
+                cdl.countDown();
+                try {
+                    cdl.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 System.out.println("DeadLock!");
                 synchronized (lock1) {
