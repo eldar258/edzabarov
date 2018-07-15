@@ -1,0 +1,1 @@
+CREATE DATABASE java_a_from_z;
