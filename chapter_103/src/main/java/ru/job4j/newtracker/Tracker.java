@@ -63,7 +63,7 @@ public class Tracker implements AutoCloseable {
         this.sqlRequester.sqlQueriesFromFile(this.connection, this.config.getProperty("pathSCreateTable"));
     }
 
-    public Item add(Item item) throws SQLException{
+    public Item add(Item item) throws SQLException {
         try (PreparedStatement ps = this.connection.prepareStatement(request.getProperty("addItem"))) {
             ps.setString(1, item.getName());
             ps.setString(2, item.getDesc());
@@ -72,7 +72,7 @@ public class Tracker implements AutoCloseable {
         return item;
     }
 
-    public void ubdate(Item item) throws SQLException{
+    public void ubdate(Item item) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement(request.getProperty(request.getProperty("updateItem")))) {
             ps.setString(1, item.getName());
             ps.setString(2, item.getDesc());
@@ -81,14 +81,14 @@ public class Tracker implements AutoCloseable {
         }
     }
 
-    public void delete(Item item) throws SQLException{
+    public void delete(Item item) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement(request.getProperty(request.getProperty("deleteItem")))) {
             ps.setInt(1, item.getId());
             ps.executeUpdate();
         }
     }
 
-    public List<Item> findByName(String key) throws SQLException{
+    public List<Item> findByName(String key) throws SQLException {
         List<Item> result = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(request.getProperty(request.getProperty("findItemByName")))) {
             ps.setString(1, key);
@@ -101,9 +101,9 @@ public class Tracker implements AutoCloseable {
         return result;
     }
 
-    public Item findById(int id) throws SQLException{
+    public Item findById(int id) throws SQLException {
         Item result = null;
-        try (PreparedStatement ps = connection.prepareStatement(request.getProperty(request.getProperty("findItemByID"))) ) {
+        try (PreparedStatement ps = connection.prepareStatement(request.getProperty(request.getProperty("findItemByID")))) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             rs.next();

@@ -31,12 +31,11 @@ public class SQLRequester {
     }
 
     public void sqlQueriesFromFile(Connection conn, String path) throws SQLException {
-        try(Statement statement = conn.createStatement(); Scanner scanner = new Scanner(getClass().getResourceAsStream(path))) {
+        try (Statement statement = conn.createStatement(); Scanner scanner = new Scanner(getClass().getResourceAsStream(path))) {
             scanner.useDelimiter(";");
             while (scanner.hasNext()) {
                 statement.execute(scanner.next());
             }
         }
     }
-
 }
