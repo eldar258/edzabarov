@@ -38,12 +38,13 @@ public class SearchHTML {
     }
 
     public Queue<Vacancy> search() {
-        Elements elements = document.select("#logTable > tbody");
+        Elements elements = document.select("#content-wrapper-forum > table.forumTable > tbody");
         elements = elements.select("tr");
+        elements.remove(0);
         Queue<Vacancy> result = new LinkedList<>();
 
         for (Element el : elements) {
-            Element element = el.child(0).child(0);
+            Element element = el.child(1).child(0);
             String url = element.attr("href");
             Date date = formatStringToDate(searchOnlyDate(url));
             Vacancy vacancy = new Vacancy(url, element.ownText(), new Timestamp(date.getTime()));

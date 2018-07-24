@@ -5,9 +5,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -22,44 +20,45 @@ public class MainClass implements Job {
 
     public static void main(String[] args) {
         Properties app = new Properties();
+
+        File file = new File(args.length != 0 ? args[0] : "");
         try {
-            app.load(new FileReader(new File(args[0])));
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            try {
+            if (file.exists()) app.load(new FileReader(file));
+            else {
+                LOG.warn("File not exist", file.toPath());
                 app.load(app.getClass().getResourceAsStream("/parser/properties/app.properties"));
-            } catch (IOException e1) {
-                e1.printStackTrace();
             }
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
         }
         new MainClass().start(app);
     }
 
     public void start(Properties app) {
         this.app = app;
-        go();
+        start0();
 
-        JobDetail j = JobBuilder.newJob(MainClass.class).build();
+        JobDetail jobDetail = JobBuilder.newJob(MainClass.class).build();
 
-        Trigger t = TriggerBuilder.newTrigger().withIdentity("trigger1")
+        Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1")
                 .startNow()
                 .withSchedule(CronScheduleBuilder.cronSchedule(app.getProperty("cron.time"))).build();
 
         try {
-            Scheduler s = StdSchedulerFactory.getDefaultScheduler();
-            s.start();
-            s.scheduleJob(j, t);
+            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+            scheduler.start();
+            scheduler.scheduleJob(jobDetail, trigger);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        go();
+        start0();
     }
 
-    public void go() {
+    public void start0() {
         Properties request = new Properties();
         Properties config = new Properties();
         try {
