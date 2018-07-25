@@ -17,6 +17,9 @@ import java.util.Properties;
 public class MainClass implements Job {
     private static final Logger LOG = LoggerFactory.getLogger(MainClass.class);
     private Properties app;
+    private Properties config;
+    private Properties request;
+    VacanciesRecorder vacanciesRecorder;
 
     public static void main(String[] args) {
         Properties app = new Properties();
@@ -36,8 +39,18 @@ public class MainClass implements Job {
 
     public void start(Properties app) {
         this.app = app;
-        start0();
+        this.vacanciesRecorder = new VacanciesRecorder();
+        initProperties();
+        vacanciesRecorder.start(config, request);
+        startScheduler();
+    }
 
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        vacanciesRecorder.start(config, request);
+    }
+
+    private void startScheduler() {
         JobDetail jobDetail = JobBuilder.newJob(MainClass.class).build();
 
         Trigger trigger = TriggerBuilder.newTrigger().withIdentity("trigger1")
@@ -53,14 +66,9 @@ public class MainClass implements Job {
         }
     }
 
-    @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        start0();
-    }
-
-    public void start0() {
-        Properties request = new Properties();
-        Properties config = new Properties();
+    private void initProperties() {
+        request = new Properties();
+        config = new Properties();
         try {
             request.load(request.getClass().getResourceAsStream("/parser/properties/request.properties"));
             config.load(config.getClass().getResourceAsStream("/parser/properties/config.properties"));
@@ -78,8 +86,5 @@ public class MainClass implements Job {
         config.setProperty("host", app.getProperty("jdbc.url"));
         config.setProperty("user", app.getProperty("jdbc.username"));
         config.setProperty("password", app.getProperty("jdbc.password"));
-
-        VacanciesRecorder vacanciesRecorder = new VacanciesRecorder();
-        vacanciesRecorder.start(config, request);
     }
 }

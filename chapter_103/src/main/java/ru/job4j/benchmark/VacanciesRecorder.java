@@ -26,7 +26,6 @@ public class VacanciesRecorder {
     }
 
     public void start(Properties config, Properties request) {
-        Properties app = new Properties();
         this.config = config;
         this.request = request;
         ProducerConsumer producerConsumer = new ProducerConsumer();
