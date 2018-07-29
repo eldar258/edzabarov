@@ -1,5 +1,9 @@
 package ru.job4j.httpprotocol;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiPredicate;
 
 /**
  * Class ru.job4j.httpprotocol.
@@ -17,25 +22,28 @@ import java.util.Map;
  * @since 28.07.2018
  */
 public class UserServlet extends HttpServlet {
+    private static final Logger LOG = LoggerFactory.getLogger(HttpServlet.class);
+
 
     private ValidateService validateService;
-    private Map<String, Command> commands;
+    private Map<String, BiPredicate<HttpServletRequest, HttpServletResponse>> commands;
 
     public UserServlet() {
         validateService = ValidateService.getInstance();
         this.commands = new HashMap<>();
 
-        commands.put("add", new CommandAdd());
-        commands.put("delete", new CommandDelete());
-        commands.put("update", new CommandUpdate());
-        commands.put("findById", new CommandFindById());
+        commands.put("", (req, resp) -> false);
+        commands.put("add", this::add);
+        commands.put("delete", this::delete);
+        commands.put("update", this::update);
+        commands.put("findById", this::findById);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
         PrintWriter printWriter = new PrintWriter(resp.getOutputStream());
-        List<User>  userList = validateService.findAll();
+        List<User> userList = validateService.findAll();
         for (User el : userList) {
             printWriter.append(String.format("%s\n", el.toString()));
         }
@@ -45,51 +53,38 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        Command command = this.commands.getOrDefault(action, new NoCommand());
-        command.execute(req, resp);
+        this.commands.getOrDefault(action, this.commands.get("")).test(req, resp);
     }
 
-    private class NoCommand implements Command {
-        @Override
-        public boolean execute(HttpServletRequest request, HttpServletResponse resp) {
-            return false;
-        }
+    private boolean add(HttpServletRequest request, HttpServletResponse resp) {
+        String name = request.getParameter("name");
+        return validateService.add(name);
     }
 
-    private class CommandAdd implements Command {
-        public boolean execute(HttpServletRequest request, HttpServletResponse resp) {
-            String name = request.getParameter("name");
-            return validateService.add(name);
-        }
-    }
-
-    private class CommandFindById implements Command {
-        @Override
-        public boolean execute(HttpServletRequest request, HttpServletResponse resp) throws IOException{
-            int id = Integer.parseInt(request.getParameter("id"));
-            resp.setContentType("text/html");
-            PrintWriter printWriter = resp.getWriter();
-            User user = validateService.findById(id);
-            boolean result = user != null;
+    private boolean findById(HttpServletRequest request, HttpServletResponse resp) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        resp.setContentType("text/html");
+        User user = validateService.findById(id);
+        boolean result = user != null;
+        PrintWriter printWriter = null;
+        try {
+            printWriter = resp.getWriter();
             printWriter.append(result ? user.toString() : null);
-            return result;
+
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
         }
+        return result;
     }
 
-    private class CommandDelete implements Command {
-        @Override
-        public boolean execute(HttpServletRequest request, HttpServletResponse resp) throws IOException {
-            int id = Integer.parseInt(request.getParameter("id"));
-            return validateService.delete(id);
-        }
+    private boolean delete(HttpServletRequest request, HttpServletResponse resp) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        return validateService.delete(id);
     }
 
-    private class CommandUpdate implements Command {
-        @Override
-        public boolean execute(HttpServletRequest request, HttpServletResponse resp) throws IOException {
-            int id = Integer.parseInt(request.getParameter("id"));
-            String name = request.getParameter("name");
-            return validateService.update(id, name);
-        }
+    private boolean update(HttpServletRequest request, HttpServletResponse resp) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        return validateService.update(id, name);
     }
 }
