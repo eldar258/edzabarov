@@ -31,6 +31,26 @@ public class User {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
