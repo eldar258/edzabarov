@@ -17,15 +17,16 @@ import java.io.PrintWriter;
  * @since 29.07.2018
  */
 public class UserUpdateServlet extends HttpServlet {
-    ValidateService validateService = ValidateService.getInstance();
+    private final ValidateService validateService = ValidateService.getInstance();
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String $num = req.getParameter("id");
         int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-        } catch (RuntimeException ex) {
+        if ("?\\d+".matches($num)) {
+            id = Integer.parseInt($num);
+        } else {
             return;
         }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/servlet/edit.jsp");
@@ -34,10 +35,11 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String $num = req.getParameter("id");
         int id;
-        try {
-            id = Integer.parseInt(req.getParameter("id"));
-        } catch (RuntimeException ex) {
+        if ("?\\d+".matches($num)) {
+            id = Integer.parseInt($num);
+        } else {
             return;
         }
         String name = req.getParameter("txtName");

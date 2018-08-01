@@ -18,7 +18,7 @@ import java.util.Enumeration;
  * @since 29.07.2018
  */
 public class UserCreateServlet extends HttpServlet {
-    private ValidateService validateService = ValidateService.getInstance();
+    private final ValidateService validateService = ValidateService.getInstance();
 
 
     @Override

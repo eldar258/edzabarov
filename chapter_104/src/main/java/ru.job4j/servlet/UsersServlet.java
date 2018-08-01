@@ -19,7 +19,7 @@ import java.util.Scanner;
  * @since 29.07.2018
  */
 public class UsersServlet extends HttpServlet {
-    ValidateService validateService = ValidateService.getInstance();
+    private final ValidateService validateService = ValidateService.getInstance();
 
     
 
