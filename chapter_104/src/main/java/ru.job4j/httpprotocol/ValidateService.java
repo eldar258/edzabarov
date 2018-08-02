@@ -1,5 +1,7 @@
 package ru.job4j.httpprotocol;
 
+import ru.job4j.jsp.DBStore;
+
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ public class ValidateService {
     private Store<User> store;
 
     private ValidateService() {
-        this.store = MemoryStore.getInstance();
+        this.store = DBStore.getInstance();
     }
 
     public static ValidateService getInstance() {
