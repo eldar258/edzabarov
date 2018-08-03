@@ -21,7 +21,7 @@ import java.util.Properties;
 public class DBStore implements Store<User> {
 
     private final static BasicDataSource SOURCE = new BasicDataSource();
-    private static volatile DBStore instance;
+    private static DBStore instance;
     private Properties dbProperties;
     private final static Logger LOG = LoggerFactory.getLogger(DBStore.class);
 

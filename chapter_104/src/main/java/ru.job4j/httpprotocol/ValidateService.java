@@ -11,7 +11,7 @@ import java.util.List;
  * @since 28.07.2018
  */
 public class ValidateService {
-    private static volatile ValidateService instance;
+    private static ValidateService instance;
 
     private Store<User> store;
 
