@@ -23,7 +23,7 @@ public class UserCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("html/servlet/create.html");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/view/UserCreate.jsp");
         requestDispatcher.forward(req, resp);
     }
 
@@ -31,6 +31,7 @@ public class UserCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter printWriter = resp.getWriter();
         String  name = req.getParameter("txtName");
+        System.out.println(name);
         boolean succ = validateService.add(name);
         printWriter.append(succ ? "successful" : String.format("name is incorrect or exist: %s", name));
         printWriter.flush();

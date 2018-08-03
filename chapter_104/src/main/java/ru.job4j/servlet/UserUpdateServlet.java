@@ -1,5 +1,6 @@
 package ru.job4j.servlet;
 
+import com.sun.org.apache.regexp.internal.RE;
 import ru.job4j.httpprotocol.ValidateService;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Pattern;
 
 /**
  * Class ru.job4j.servlet.
@@ -18,18 +20,20 @@ import java.io.PrintWriter;
  */
 public class UserUpdateServlet extends HttpServlet {
     private final ValidateService validateService = ValidateService.getInstance();
+    private final static String REGEX_TO_INT = "-?\\d+";
 
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String num = req.getParameter("id");
         int id;
-        if ("?\\d+".matches(num)) {
+        if (Pattern.matches(REGEX_TO_INT, num)) {
             id = Integer.parseInt(num);
         } else {
             return;
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/html/servlet/edit.jsp");
+        req.setAttribute("id", num);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/view/UserUpdate.jsp");
         requestDispatcher.forward(req, resp);
     }
 
@@ -37,9 +41,10 @@ public class UserUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String num = req.getParameter("id");
         int id;
-        if ("?\\d+".matches(num)) {
+        if (Pattern.matches(REGEX_TO_INT, num)) {
             id = Integer.parseInt(num);
         } else {
+
             return;
         }
         String name = req.getParameter("txtName");
