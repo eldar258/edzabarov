@@ -60,9 +60,12 @@ public class DBStore implements Store<User> {
             PreparedStatement preparedStatement = connection.prepareStatement(dbProperties.getProperty("insertUser"));
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getLogin());
-            preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setDate(4, new Date(user.getCreateDate().getTime()));
-            result = preparedStatement.execute();
+            preparedStatement.setString(3, user.getPassword());
+            preparedStatement.setString(4, user.getRole());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.setDate(6, new Date(user.getCreateDate().getTime()));
+            preparedStatement.execute();
+            result = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -75,7 +78,8 @@ public class DBStore implements Store<User> {
         try (Connection connection = SOURCE.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(dbProperties.getProperty("deleteUser"));
             preparedStatement.setInt(1, id);
-            result = preparedStatement.execute();
+            preparedStatement.execute();
+            result = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -83,13 +87,15 @@ public class DBStore implements Store<User> {
     }
 
     @Override
-    public boolean update(int id, String name) {
+    public boolean update(int id, String name, String role) {
         boolean result = false;
         try (Connection connection = SOURCE.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(dbProperties.getProperty("updateUser"));
             preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, id);
-            result = preparedStatement.execute();
+            preparedStatement.setString(2, role);
+            preparedStatement.setInt(3, id);
+            preparedStatement.execute();
+            result = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -114,6 +120,23 @@ public class DBStore implements Store<User> {
     }
 
     @Override
+    public String findRoleByLoginPassword(String login, String password) {
+        String result = null;
+        try (Connection connection = SOURCE.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(dbProperties.getProperty("findRoleByLoginPasswordUser"));
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
     public User findById(int id) {
         User result = null;
         try (Connection connection = SOURCE.getConnection()) {
@@ -131,7 +154,8 @@ public class DBStore implements Store<User> {
 
     private User createOutUser(ResultSet resultSet) throws SQLException {
         return new User(resultSet.getInt("id"), resultSet.getString("name"),
-                resultSet.getString("login"), resultSet.getString("email"),
+                resultSet.getString("login"), resultSet.getString("password"),
+                resultSet.getString("role"), resultSet.getString("email"),
                 resultSet.getDate("time_date"));
     }
 }

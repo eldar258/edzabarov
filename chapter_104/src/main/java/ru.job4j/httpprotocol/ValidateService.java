@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class ValidateService {
     private static ValidateService instance;
-
     private Store<User> store;
+
 
     private ValidateService() {
         this.store = DBStore.getInstance();
@@ -30,13 +30,13 @@ public class ValidateService {
         return instance;
     }
 
-    public boolean add(String userName) {
-        return userName != null && !userName.trim().isEmpty()
-                && this.store.add(new User(userName));
+    public boolean add(String userName, String password, String role) {
+        return userName != null && !userName.trim().isEmpty() && password != null && !password.trim().isEmpty()
+                && this.store.add(new User(userName, password, role));
     }
 
-    public boolean update(int id, String name) {
-        return name != null && !name.trim().isEmpty() && this.store.update(id, name);
+    public boolean update(int id, String name, String role) {
+        return name != null && !name.trim().isEmpty() && this.store.update(id, name, role);
     }
 
     public boolean delete(int id) {
@@ -45,6 +45,10 @@ public class ValidateService {
 
     public List<User> findAll() {
         return this.store.findAll();
+    }
+
+    public String findRoleByLoginPassword(String login, String password) {
+        return this.store.findRoleByLoginPassword(login, password);
     }
 
     public User findById(int id) {

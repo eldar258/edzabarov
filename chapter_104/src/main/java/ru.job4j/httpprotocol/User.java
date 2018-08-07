@@ -12,19 +12,23 @@ public class User {
     private int id;
     private String name;
     private String login;
+    private String password;
+    private String role;
     private String email;
     private Date createDate;
 
-    public User(int id, String name, String login, String email, Date createDate) {
+    public User(int id, String name, String login, String password, String role, String email, Date createDate) {
         this.id = id;
         this.name = name;
         this.login = login;
+        this.password = password;
+        this.role = role;
         this.email = email;
         this.createDate = createDate;
     }
 
-    public User(String name) {
-        this(name.hashCode(), name, name, "no", new Date());
+    public User(String name, String password, String role) {
+        this(name.hashCode(), name, name, password, role, "no", new Date());
     }
 
     public void setName(String name) {
@@ -41,6 +45,14 @@ public class User {
 
     public String getLogin() {
         return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public String getEmail() {

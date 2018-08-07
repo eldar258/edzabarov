@@ -30,10 +30,11 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter printWriter = resp.getWriter();
+        String role = req.getParameter("role");
         String  name = req.getParameter("txtName");
-        System.out.println(name);
-        boolean succ = validateService.add(name);
-        printWriter.append(succ ? "successful" : String.format("name is incorrect or exist: %s", name));
+        String password = req.getParameter("password");
+        boolean succ = validateService.add(name, password, role);
+        printWriter.append(succ ? "registered" : "user exist");
         printWriter.flush();
     }
 }

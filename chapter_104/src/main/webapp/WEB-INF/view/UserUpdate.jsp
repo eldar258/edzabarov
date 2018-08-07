@@ -12,17 +12,16 @@
     <title>Edit</title>
 </head>
 <body>
-<body>
 <form action="./edit" method="post">
     <input type=hidden name="id" value="${id}">
-    <table>
-        <tr>
-            <td>name</td>
-        </tr>
-        <tr>
-            <input type="text" name="txtName" />
-        </tr>
-    </table>
+    <p><b>Role</b></p>
+    <input type="text" name="txtName" />
+    <p><b>Role</b></p>
+    <select name="update_role">
+        <option value="user">User</option>
+        <option value="moderator">Moderator</option>
+        <option value="administrator">Administrator</option>
+    </select>
     <input type="submit" />
 </form>
 </body>

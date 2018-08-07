@@ -13,11 +13,25 @@
     <title>Create User</title>
 </head>
 <body>
+<h2>Create User</h2>
     <div>
         <form action="./create" method="post">
+            <p><b>Role</b></p>
+            <select name="role">
+                <option value="user">User</option>
+                <option value="moderator">Moderator</option>
+                <option value="administrator">Administrator</option>
+            </select>
+            <p><b>Login</b></p>
             <input type="text" name="txtName" />
-            <input type="submit" />
+            <p><b>Password</b></p>
+            <input type="password" name="password" />
+            <input type="submit" value="register" />
         </form>
     </div>
+<h2>You already have an account?</h2>
+    <form action="./singin" method="get">
+        <input type="submit" value="sing in"/>
+    </form>
 </body>
 </html>
