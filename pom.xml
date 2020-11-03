@@ -58,6 +58,7 @@
 		<module>chapter_102</module>
 		<module>chapter_103</module>
 		<module>chapter_104</module>
+		<module>new_chapter_104</module>
 	</modules>
 	
 	<build>
